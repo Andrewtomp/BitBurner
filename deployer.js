@@ -1,6 +1,6 @@
 /** 
- * script places virus on all servers rooted servers on the network.
- * all scripts target one server passed in args
+ * script places targeted virus on rooted servers on the network.
+ * kills scripts on all servers excluding home.
  * 
  * @param {NS} ns */
 export async function main(ns) {
