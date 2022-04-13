@@ -29,27 +29,26 @@ export async function main(ns) {
 		}
 		ns.nuke(server);
 	}
-
-
-// recursively scans all servers on network and gains root access
-	function recurseScan(server) {
-		var connected = ns.scan(server);
-		if (connected.length = 1) {
-			return;
-		}
-		else {
-			for (var i = 0; i < connected.length; i++) {
-				recurseScan(connected[i]);
+	async function netScan() {
+		let servers = [];
+		let serversToScan = ns.scan("home");
+		while (serversToScan.length > 0) {
+			let server = serversToScan.shift();
+			if (!servers.includes(server) && server !== "home") {
+				servers.push(server);
+				serversToScan = serversToScan.concat(ns.scan(server));
+			}
+			if (!ns.hasRootAccess(server)) {
+				if (canAdd(server)) {
+					await addServ(server);
+					ns.tprint("Added: " + server);
+				}
 			}
 		}
-		if (!ns.hasRootAccess(server)) {
-			if (canAdd(server)) {
-				addServ(server);
-				ns.print("Added: " + server);
-			}
-		}
-		return;
+
 	}
 
-	recurseScan("home");
+	netScan();
+
+
 }
