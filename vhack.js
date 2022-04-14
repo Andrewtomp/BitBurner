@@ -1,0 +1,10 @@
+/** lightweight hack virus
+ * 
+ * @param {NS} ns */
+export async function main(ns) {
+	var target = ns.args[0];
+
+
+	await ns.hack(target);
+	ns.print("Hack " + target + " completed");
+}
